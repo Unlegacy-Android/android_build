@@ -150,6 +150,9 @@ Usage:  ota_from_target_files [flags] input_target_files output_ota_package
   --payload_signer_args <args>
       Specify the arguments needed for payload signer.
 
+  --override_device <device>
+      Override device-specific asserts. Can be a comma-separated list.
+
   --skip_postinstall
       Skip the postinstall hooks when generating an A/B OTA package (default:
       False). Note that this discards ALL the hooks, including non-optional
@@ -206,6 +209,7 @@ OPTIONS.payload_signer = None
 OPTIONS.payload_signer_args = []
 OPTIONS.extracted_input = None
 OPTIONS.key_passwords = []
+OPTIONS.override_device = 'auto'
 OPTIONS.skip_postinstall = False
 
 
@@ -263,7 +267,10 @@ class BuildInfo(object):
       assert oem_dicts, "OEM source required for this build"
 
     # These two should be computed only after setting self._oem_props.
-    self._device = self.GetOemProperty("ro.product.device")
+    if OPTIONS.override_device == "auto":
+      self._device = self.GetOemProperty("ro.product.device")
+    else:
+      self._device = OPTIONS.override_device
     self._fingerprint = self.CalculateFingerprint()
 
   @property
@@ -1837,6 +1844,8 @@ def main(argv):
       OPTIONS.payload_signer_args = shlex.split(a)
     elif o == "--extracted_input_target_files":
       OPTIONS.extracted_input = a
+    elif o in ("--override_device"):
+      OPTIONS.override_device = a
     elif o == "--skip_postinstall":
       OPTIONS.skip_postinstall = True
     else:
@@ -1868,6 +1877,7 @@ def main(argv):
                                  "payload_signer=",
                                  "payload_signer_args=",
                                  "extracted_input_target_files=",
+                                 "override_device=",
                                  "skip_postinstall",
                              ], extra_option_handler=option_handler)
 
