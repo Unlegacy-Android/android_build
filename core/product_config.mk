@@ -358,6 +358,9 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES := \
     $(strip $(PRODUCTS.$(INTERNAL_PRODUCT).PRODUCT_DEFAULT_PROPERTY_OVERRIDES))
 .KATI_READONLY := PRODUCT_DEFAULT_PROPERTY_OVERRIDES
 
+PRODUCT_BUILD_PROP_OVERRIDES := \
+	$(strip $(PRODUCTS.$(INTERNAL_PRODUCT).PRODUCT_BUILD_PROP_OVERRIDES))
+
 # A list of property assignments, like "key = value", with zero or more
 # whitespace characters on either side of the '='.
 # used for adding properties to default.prop of system partition
