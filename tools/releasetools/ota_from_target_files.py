@@ -809,6 +809,15 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
     system_progress -= 0.1
 
   script.ShowProgress(system_progress, 0)
+  script.Print(" ##################################### ")
+  script.Print("")
+  script.Print("        _      ___    ___   ___        ")
+  script.Print("       /_\    / _ \  / __| | _ \       ")
+  script.Print("      / _ \  | (_) | \__ \ |  _/       ")
+  script.Print("     /_/ \_\  \___/  |___/ |_|         ")
+  script.Print("")
+  script.Print("      www.unlegacy-android.org         ")
+  script.Print(" ##################################### ")
 
   # See the notes in WriteBlockIncrementalOTAPackage().
   allow_shared_blocks = target_info.get('ext4_share_dup_blocks') == "true"
