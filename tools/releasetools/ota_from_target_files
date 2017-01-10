@@ -57,8 +57,6 @@ Usage:  ota_from_target_files [flags] input_target_files output_ota_package
       first, so that any changes made to the system partition are done
       using the new recovery (new kernel, etc.).
 
-  --override_device <device>
-      Override device-specific asserts. Can be a comma-separated list.
 
 """
 
@@ -985,8 +983,6 @@ def main(argv):
       OPTIONS.worker_threads = int(a)
     elif o in ("-2", "--two_step"):
       OPTIONS.two_step = True
-    elif o in ("--override_device"):
-      OPTIONS.override_device = a
     else:
       return False
     return True
@@ -1002,7 +998,6 @@ def main(argv):
                                               "worker_threads=",
                                               "aslr_mode=",
                                               "two_step",
-                                              "override_device="
                                               ],
                              extra_option_handler=option_handler)
 
@@ -1018,6 +1013,9 @@ def main(argv):
 
   OPTIONS.target_tmp = OPTIONS.input_tmp
   OPTIONS.info_dict = common.LoadInfoDict(input_zip)
+
+  if "ota_override_device" in OPTIONS.info_dict:
+    OPTIONS.override_device = OPTIONS.info_dict.get("ota_override_device")
 
   # If this image was originally labelled with SELinux contexts, make sure we
   # also apply the labels in our new image. During building, the "file_contexts"
