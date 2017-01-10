@@ -1922,6 +1922,9 @@ def main(argv):
   # Load OEM dicts if provided.
   OPTIONS.oem_dicts = _LoadOemDicts(OPTIONS.oem_source)
 
+  if "ota_override_device" in OPTIONS.info_dict:
+    OPTIONS.override_device = OPTIONS.info_dict.get("ota_override_device")
+
   ab_update = OPTIONS.info_dict.get("ab_update") == "true"
 
   # Use the default key to sign the package if not specified with package_key.
